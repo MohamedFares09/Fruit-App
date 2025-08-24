@@ -1,10 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fruits_app/features/onbording/presintation/view/onbording_view.dart';
+import 'package:fruits_app/utlis/app_image.dart';
 
-class SplahViewBody extends StatelessWidget {
+class SplahViewBody extends StatefulWidget {
   const SplahViewBody({super.key});
 
   @override
+  State<SplahViewBody> createState() => _SplahViewBodyState();
+}
+
+class _SplahViewBodyState extends State<SplahViewBody> {
+  @override
+  void initState() {
+    excuteNavigation();
+    super.initState();
+  }
+
+
+
+  @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SvgPicture.asset(Assets.plant),
+          ],
+        ),
+        SvgPicture.asset(Assets.logo),
+        SvgPicture.asset(Assets.buttonsplash)
+      ],
+    );
+  }
+
+
+
+    void excuteNavigation() {
+      Future.delayed(Duration(seconds: 3), () {
+      Navigator.pushReplacementNamed(context, OnbordingView.route);
+    });
   }
 }
