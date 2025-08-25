@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fruits_app/features/onbording/presintation/view/onbording_view.dart';
-import 'package:fruits_app/utlis/app_image.dart';
+import 'package:fruits_app/core/utlis/app_image.dart';
 
 class SplahViewBody extends StatefulWidget {
   const SplahViewBody({super.key});
@@ -17,15 +17,13 @@ class _SplahViewBodyState extends State<SplahViewBody> {
     super.initState();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
             SvgPicture.asset(Assets.plant),
           ],
@@ -36,10 +34,8 @@ class _SplahViewBodyState extends State<SplahViewBody> {
     );
   }
 
-
-
-    void excuteNavigation() {
-      Future.delayed(Duration(seconds: 3), () {
+  void excuteNavigation() {
+    Future.delayed(Duration(seconds: 3), () {
       Navigator.pushReplacementNamed(context, OnbordingView.route);
     });
   }
