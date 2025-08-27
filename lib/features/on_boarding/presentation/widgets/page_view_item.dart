@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fruits_app/core/utils/app_text_styles.dart';
+import 'package:fruits_app/features/auth/presentation/views/login_view.dart';
 
 class PageViewItem extends StatelessWidget {
   const PageViewItem({
@@ -8,9 +10,11 @@ class PageViewItem extends StatelessWidget {
     required this.image,
     required this.subTitle,
     required this.title,
+    required this.isVisable,
   });
   final String backGroungImage, image, subTitle;
   final Widget title;
+  final bool isVisable;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +22,7 @@ class PageViewItem extends StatelessWidget {
       children: [
         SizedBox(
           width: double.infinity,
-          height: MediaQuery.of(context).size.height * 0.5,
+          height: MediaQuery.of(context).size.height * 0.40,
           child: Stack(
             children: [
               Positioned.fill(
@@ -35,9 +39,20 @@ class PageViewItem extends StatelessWidget {
                   image,
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.all(8),
-                child: Text("تخط"),
+              Visibility(
+                visible: isVisable,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pushReplacementNamed(context, LoginView.route);
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Text(
+                      "تخط",
+                      style: AppTextStyles.regular13,
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
@@ -53,6 +68,7 @@ class PageViewItem extends StatelessWidget {
           padding: const EdgeInsets.only(left: 29, right: 29),
           child: Text(
             subTitle,
+            style: AppTextStyles.semibold13,
             textAlign: TextAlign.center,
           ),
         ),

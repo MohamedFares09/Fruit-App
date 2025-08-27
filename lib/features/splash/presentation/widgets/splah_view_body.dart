@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fruits_app/features/onbording/presintation/view/onbording_view.dart';
-import 'package:fruits_app/core/utlis/app_image.dart';
+import 'package:fruits_app/features/on_boarding/presentation/view/onbording_view.dart';
+import 'package:fruits_app/core/utils/app_image.dart';
 
 class SplahViewBody extends StatefulWidget {
   const SplahViewBody({super.key});
