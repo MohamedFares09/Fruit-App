@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fruits_app/constants.dart';
+import 'package:fruits_app/core/services/shared_preferences_single_tone.dart';
 import 'package:fruits_app/core/utils/app_text_styles.dart';
 import 'package:fruits_app/features/auth/presentation/views/login_view.dart';
 
@@ -43,6 +45,8 @@ class PageViewItem extends StatelessWidget {
                 visible: isVisable,
                 child: GestureDetector(
                   onTap: () {
+                    SharedPreferencesService.setBool(
+                        kIsOnBordingViewScreen, true);
                     Navigator.pushReplacementNamed(context, LoginView.route);
                   },
                   child: Padding(
