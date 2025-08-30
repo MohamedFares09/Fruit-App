@@ -8,4 +8,8 @@ abstract class Assets {
   static String page_view_2_background_image =
       'assets/images/page_view2_background_image.svg';
   static String page_view_2_iamge = 'assets/images/page_view2_image.svg';
+  static String facebook_icon = 'assets/images/facebook_icons.svg';
+  static String google_icon = 'assets/images/google_icons.svg';
+  static String iphone_icon = 'assets/images/ipone_icons.svg';
+
 }

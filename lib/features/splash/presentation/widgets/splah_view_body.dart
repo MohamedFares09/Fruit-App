@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fruits_app/constants.dart';
@@ -39,15 +37,18 @@ class _SplahViewBodyState extends State<SplahViewBody> {
     );
   }
 
-void excuteNavigation()  {
-  bool isOnBordingViewScreen =
-         SharedPreferencesService.getBool(kIsOnBordingViewScreen);
-  Future.delayed(Duration(seconds: 3), () async {
-    if (isOnBordingViewScreen) {
-      Navigator.pushReplacementNamed(context, LoginView.route);
-    } else {
-      Navigator.pushReplacementNamed(context, OnbordingView.route);
-    }
-  });
-}
+  void excuteNavigation() {
+    bool isOnBordingViewScreen =
+        SharedPreferencesService.getBool(kIsOnBordingViewScreen);
+    Future.delayed(
+      Duration(seconds: 3),
+      () async {
+        if (isOnBordingViewScreen) {
+          Navigator.pushReplacementNamed(context, LoginView.route);
+        } else {
+          Navigator.pushReplacementNamed(context, OnbordingView.route);
+        }
+      },
+    );
+  }
 }

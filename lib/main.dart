@@ -5,9 +5,9 @@ import 'package:fruits_app/core/services/shared_preferences_single_tone.dart';
 import 'package:fruits_app/features/splash/presentation/view/splash_view.dart';
 import 'package:fruits_app/generated/l10n.dart';
 
-void main()async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-await SharedPreferencesService.init();
+  await SharedPreferencesService.init();
   runApp(const FruitApp());
 }
 
@@ -17,7 +17,10 @@ class FruitApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(fontFamily: 'Cairo'),
+      theme: ThemeData(
+        fontFamily: 'Cairo',
+        scaffoldBackgroundColor: Colors.white,
+      ),
       localizationsDelegates: [
         S.delegate,
         GlobalMaterialLocalizations.delegate,

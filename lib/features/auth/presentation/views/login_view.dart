@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:fruits_app/core/utils/widgets/custom_app_bar.dart';
+import 'package:fruits_app/features/auth/presentation/widgets/login_view_body.dart';
 
 class LoginView extends StatelessWidget {
   const LoginView({super.key});
-  static const  route = "route";
+  static const route = "route";
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: buildAppBar(context, title: "تسجيل الدخول"),
+      body: LoginViewBody(),
+    );
   }
+
+
 }
