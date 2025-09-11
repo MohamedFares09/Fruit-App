@@ -1,0 +1,23 @@
+import 'package:fruits_app/core/services/firebase_auth_services.dart';
+import 'package:fruits_app/features/auth/data/repos/auth_repo_impl.dart';
+import 'package:fruits_app/features/auth/doman/repos/auth_repo.dart';
+import 'package:fruits_app/features/auth/presentation/cubits/signup_cubit.dart/signup_cubit.dart';
+import 'package:get_it/get_it.dart';
+
+final getIt = GetIt.instance;
+
+void setupGetIt() {
+  getIt.registerSingleton<FirebaseAuthServices>(
+    FirebaseAuthServices(),
+  );
+  getIt.registerSingleton<AuthRepo>(
+    AuthRepoImpl(
+      getIt<FirebaseAuthServices>(),
+    ),
+  );
+  getIt.registerSingleton<SignupCubit>(
+    SignupCubit(
+      getIt<AuthRepo>(),
+    ),
+  );
+}

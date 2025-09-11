@@ -2,13 +2,27 @@ import 'package:flutter/material.dart';
 
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField(
-      {super.key, required this.hintText, this.suffixIcon, required this.keyboardType});
+      {super.key,
+      required this.hintText,
+      this.suffixIcon,
+      required this.keyboardType,
+      this.onSaved,
+      this.obscureText = true});
   final String hintText;
   final Widget? suffixIcon;
   final TextInputType keyboardType;
+  final void Function(String?)? onSaved;
+  final bool obscureText;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onSaved: onSaved,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'هذا الحقل مطلوب';
+        }
+        return null;
+      },
       keyboardType: keyboardType,
       decoration: InputDecoration(
         filled: true,
@@ -18,17 +32,16 @@ class CustomTextFormField extends StatelessWidget {
         border: buildBorder(),
         enabledBorder: buildBorder(),
         focusedBorder: buildBorder(),
-        
       ),
     );
   }
 
-  OutlineInputBorder buildBorder( ) {
+  OutlineInputBorder buildBorder() {
     return OutlineInputBorder(
-        borderSide: BorderSide(
-          width: 1,
-          color: Colors.grey,
-        ),
-      );
+      borderSide: BorderSide(
+        width: 1,
+        color: Colors.grey,
+      ),
+    );
   }
 }
