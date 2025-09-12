@@ -18,7 +18,8 @@ class SignupViewBody extends StatefulWidget {
 class _SignupViewBodyState extends State<SignupViewBody> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
-  late String name , email, password;
+  late String name, email, password;
+  late bool isCheck = false;
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -34,7 +35,8 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                   onSaved: (value) {
                     name = value!;
                   },
-                  hintText: "الاسم كامل", keyboardType: TextInputType.name),
+                  hintText: "الاسم كامل",
+                  keyboardType: TextInputType.name),
               SizedBox(height: 16),
               CustomTextFormField(
                   onSaved: (value) {
@@ -43,20 +45,43 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                   hintText: "البريد الالكتروني",
                   keyboardType: TextInputType.emailAddress),
               SizedBox(height: 16),
-              PasswordField(),
+              PasswordField(
+                onSaved: (value) {
+                  password = value!;
+                },
+              ),
               SizedBox(height: 16),
-              TermsAndCondtionSignup(),
+              TermsAndCondtionSignup(
+                onChanged: (value) {
+                  isCheck = value;
+                },
+              ),
               SizedBox(height: 30),
               CustomButton(
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
                     formKey.currentState!.save();
-                    context.read<SignupCubit>().createUserWithEmailAndPassword(
-                          name: name,
-                          email: email.trim(),
-                          password: password,
-                        );
-                        print('Email to register: $email');
+                    if (isCheck) {
+                      context
+                          .read<SignupCubit>()
+                          .createUserWithEmailAndPassword(
+                            name: name,
+                            email: email.trim(),
+                            password: password,
+                          );
+                    }
+                    else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'يجب الموافقة على الشروط والأحكام لإنشاء حساب جديد.',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    }
+                    print('Email to register: $email');
                   } else {
                     setState(() {
                       autovalidateMode = AutovalidateMode.always;
@@ -64,7 +89,7 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                   }
                 },
                 text: "إنشاء حساب جديد",
-                ),
+              ),
               SizedBox(height: 26),
               AlreadyHaveAccount()
             ],
