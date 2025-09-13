@@ -4,7 +4,7 @@ import 'package:fruits_app/constants.dart';
 import 'package:fruits_app/core/services/shared_preferences_single_tone.dart';
 import 'package:fruits_app/core/utils/app_colors.dart';
 import 'package:fruits_app/core/utils/widgets/custom_button.dart';
-import 'package:fruits_app/features/auth/presentation/views/login_view.dart';
+import 'package:fruits_app/features/auth/presentation/views/signin_view.dart';
 import 'package:fruits_app/features/on_boarding/presentation/widgets/onbording_page_view.dart';
 
 class OnbordingViewBody extends StatefulWidget {
@@ -68,7 +68,7 @@ class _OnbordingViewBodyState extends State<OnbordingViewBody> {
               text: "ابدأ الان",
               onPressed: () {
                 SharedPreferencesService.setBool(kIsOnBordingViewScreen, true);
-                Navigator.pushReplacementNamed(context, LoginView.route);
+                Navigator.pushReplacementNamed(context, SignInView.route);
               },
             ),
           ),

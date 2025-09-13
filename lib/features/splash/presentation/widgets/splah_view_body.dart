@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fruits_app/constants.dart';
 import 'package:fruits_app/core/services/shared_preferences_single_tone.dart';
-import 'package:fruits_app/features/auth/presentation/views/login_view.dart';
+import 'package:fruits_app/features/auth/presentation/views/signin_view.dart';
 import 'package:fruits_app/features/on_boarding/presentation/view/onbording_view.dart';
 import 'package:fruits_app/core/utils/app_image.dart';
 
@@ -44,7 +44,7 @@ class _SplahViewBodyState extends State<SplahViewBody> {
       Duration(seconds: 3),
       () async {
         if (isOnBordingViewScreen) {
-          Navigator.pushReplacementNamed(context, LoginView.route);
+          Navigator.pushReplacementNamed(context, SignInView.route);
         } else {
           Navigator.pushReplacementNamed(context, OnbordingView.route);
         }
