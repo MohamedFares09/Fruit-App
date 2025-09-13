@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fruits_app/core/hleper_functions/build_snak_bar.dart';
 import 'package:fruits_app/features/auth/presentation/cubits/signup_cubit.dart/signup_cubit.dart';
@@ -17,9 +16,9 @@ class SignupViewBodyBlocConsumer extends StatelessWidget {
     return BlocConsumer<SignupCubit, SignupState>(
       listener: (context, state) {
         if (state is SignupErrorState) {
-          buildsnakbar(context, state.message);
+          buildsnakbar(context, state.message , Colors.red);
         } else if (state is SignupSuccessState) {
-          buildsnakbar(context, 'تم انشاء الحساب بنجاح');
+          buildsnakbar(context, 'تم انشاء الحساب بنجاح', Colors.green);
           // Navigate to home screen or other screen
         }
       },

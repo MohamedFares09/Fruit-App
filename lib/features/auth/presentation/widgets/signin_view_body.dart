@@ -53,7 +53,9 @@ class _SigninViewBodyState extends State<SigninViewBody> {
                 SizedBox(
                   height: 16,
                 ),
-                ForgetPassword(),
+                ForgetPassword(
+                  
+                ),
                 SizedBox(
                   height: 33,
                 ),
