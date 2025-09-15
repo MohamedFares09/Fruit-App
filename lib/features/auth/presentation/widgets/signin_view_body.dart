@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fruits_app/constants.dart';
@@ -53,15 +55,13 @@ class _SigninViewBodyState extends State<SigninViewBody> {
                 SizedBox(
                   height: 16,
                 ),
-                ForgetPassword(
-                  
-                ),
+                ForgetPassword(),
                 SizedBox(
                   height: 33,
                 ),
                 CustomButton(
                     onPressed: () {
-                      if (formKey.currentState!.validate()){
+                      if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
                         context.read<SigninCubit>().signin(email, password);
                       } else {
@@ -84,23 +84,29 @@ class _SigninViewBodyState extends State<SigninViewBody> {
                 LoginSocialMedia(
                   image: "assets/images/google_icons.svg",
                   title: "تسجيل بواسطة جوجل ",
-                  onPressed: () {},
+                  onPressed: () {
+                    context.read<SigninCubit>().signInWithGoogle();
+                  },
                 ),
                 SizedBox(
                   height: 16,
                 ),
-                LoginSocialMedia(
-                  image: "assets/images/ipone_icons.svg",
-                  title: "تسجيل بواسطة أبل",
-                  onPressed: () {},
-                ),
+                Platform.isIOS
+                    ? LoginSocialMedia(
+                        image: "assets/images/ipone_icons.svg",
+                        title: "تسجيل بواسطة أبل",
+                        onPressed: () {},
+                      )
+                    : Container(),
                 SizedBox(
                   height: 16,
                 ),
                 LoginSocialMedia(
                   image: "assets/images/facebook_icons.svg",
                   title: "تسجيل بواسطة فيس بوك",
-                  onPressed: () {},
+                  onPressed: () {
+                    context.read<SigninCubit>().signInWithFacebook();
+                  },
                 ),
                 SizedBox(
                   height: 40,
