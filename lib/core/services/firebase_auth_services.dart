@@ -5,8 +5,11 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:fruits_app/core/errors/exception.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-
 class FirebaseAuthServices {
+    Future deleteUser() async{
+     await FirebaseAuth.instance.currentUser!.delete();
+    }
+
   Future<User> createUserWithEmailAndPassword(
       {required String email, required String password}) async {
     try {
@@ -18,19 +21,8 @@ class FirebaseAuthServices {
       return userCredential.user!;
     } on FirebaseAuthException catch (e) {
       log("Exception FirebaseAuthServices - createUserWithEmailAndPassword: ${e.code}");
-      if (e.code == 'weak-password') {
-        throw CustomException('كلمة المرور ضعيفة جدا');
-      } else if (e.code == 'email-already-in-use') {
-        throw CustomException('هذا البريد الالكتروني مستخدم من قبل');
-      } else if (e.code == 'invalid-email') {
-        throw CustomException('البريد الالكتروني غير صالح');
-      } else if (e.code == "network-request-failed") {
-        throw CustomException('برجاء التحقق من اتصالك بالانترنت');
-      } else if (e.code == "operation-not-allowed") {
-        throw CustomException('تم تعطيل هذا الحساب. الرجاء الاتصال بالدعم.');
-      } else {
-        throw CustomException(e.toString());
-      }
+      ServerException.handleFirebaseAuthException(e);
+      throw CustomException('فشل في إنشاء الحساب. الرجاء المحاولة مرة أخرى.');
     } catch (e) {
       log("Exception FirebaseAuthServices - createUserWithEmailAndPassword: $e");
       throw CustomException('حدث خطأ ما. الرجاء المحاولة مرة أخرى.');
@@ -48,21 +40,8 @@ class FirebaseAuthServices {
       return userCredential.user!;
     } on FirebaseAuthException catch (e) {
       log("Exception FirebaseAuthServices - signInWithEmailAndPassword: ${e.code}");
-      if (e.code == 'user-not-found') {
-        throw CustomException('. الرجاء التسجيل أولا');
-      } else if (e.code == 'wrong-password') {
-        throw CustomException('البريد الالكتروني او كلمة المرور غير صحيحة');
-      } else if (e.code == 'invalid-email') {
-        throw CustomException('البريد الالكتروني غير صالح');
-      } else if (e.code == "network-request-failed") {
-        throw CustomException('برجاء التحقق من اتصالك بالانترنت');
-      } else if (e.code == "operation-not-allowed") {
-        throw CustomException('تم تعطيل هذا الحساب. الرجاء الاتصال بالدعم.');
-      } else if (e.code == "invalid-credential") {
-        throw CustomException('البريد الالكتروني او كلمة المرور غير صحيحة');
-      } else {
-        throw CustomException(e.toString());
-      }
+      ServerException.handleFirebaseAuthException(e);
+      throw CustomException('فشل تسجيل الدخول. الرجاء المحاولة مرة أخرى.');
     } catch (e) {
       log("Exception FirebaseAuthServices - signInWithEmailAndPassword: $e");
       throw CustomException('حدث خطأ ما. الرجاء المحاولة مرة أخرى.');
