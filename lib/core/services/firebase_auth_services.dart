@@ -6,9 +6,9 @@ import 'package:fruits_app/core/errors/exception.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class FirebaseAuthServices {
-    Future deleteUser() async{
-     await FirebaseAuth.instance.currentUser!.delete();
-    }
+  Future deleteUser() async {
+    await FirebaseAuth.instance.currentUser!.delete();
+  }
 
   Future<User> createUserWithEmailAndPassword(
       {required String email, required String password}) async {
@@ -63,13 +63,21 @@ class FirebaseAuthServices {
   }
 
   Future<User> signInWithFacebook() async {
-    final LoginResult loginResult = await FacebookAuth.instance.login();
+    try {
+      final LoginResult loginResult = await FacebookAuth.instance.login();
 
-    final OAuthCredential facebookAuthCredential =
-        FacebookAuthProvider.credential(loginResult.accessToken!.tokenString);
-
-    return (await FirebaseAuth.instance
-            .signInWithCredential(facebookAuthCredential))
-        .user!;
+      final OAuthCredential facebookAuthCredential =
+          FacebookAuthProvider.credential(loginResult.accessToken!.tokenString);
+      return (await FirebaseAuth.instance
+              .signInWithCredential(facebookAuthCredential))
+          .user!;
+    } on FirebaseAuthException catch (e) {
+      log("Exception FirebaseAuthServices - signInWithEmailAndPassword: ${e.code}");
+      ServerException.handleFirebaseAuthException(e);
+      throw CustomException('فشل تسجيل الدخول. الرجاء المحاولة مرة أخرى.');
+    } catch (e) {
+      log("Exception FirebaseAuthServices - signInWithEmailAndPassword: $e");
+      throw CustomException('حدث خطأ ما. الرجاء المحاولة مرة أخرى.');
+    }
   }
 }

@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fruits_app/core/errors/exception.dart';
 import 'package:fruits_app/core/errors/failuer.dart';
+import 'package:fruits_app/core/hleper_functions/delete_user.dart';
 import 'package:fruits_app/core/services/data_services.dart';
 import 'package:fruits_app/core/services/firebase_auth_services.dart';
 import 'package:fruits_app/core/utils/backend_endpoint.dart';
@@ -29,14 +30,10 @@ class AuthRepoImpl extends AuthRepo {
         userEntity,
       );
     } on CustomException catch (e) {
-      if (user != null) {
-        await firebaseAuthServices.deleteUser();
-      }
+      await deleteUser(user);
       return left(ServerFailure(e.message));
     } catch (e) {
-      if (user != null) {
-        await firebaseAuthServices.deleteUser();
-      }
+      deleteUser(user);
       log("Exception AuthRepoImpl - createUserWithEmailAndPassword: $e and ");
       return left(ServerFailure("حدث خطأ ما. الرجاء المحاولة مرة أخرى."));
     }
@@ -45,9 +42,11 @@ class AuthRepoImpl extends AuthRepo {
   @override
   Future<Either<Failure, UserEntity>> signInWithEmailAndPassword(
       String email, String password) async {
+    User? user;
     try {
-      var user = await firebaseAuthServices.signInWithEmailAndPassword(
+      user = await firebaseAuthServices.signInWithEmailAndPassword(
           email: email, password: password);
+
       return right(UserModel.fromFirebaseUser(user));
     } on CustomException catch (e) {
       return left(ServerFailure(e.message));
@@ -59,22 +58,36 @@ class AuthRepoImpl extends AuthRepo {
 
   @override
   Future<Either<Failure, UserEntity>> signInWithGoogle() async {
+    User? user;
     try {
-      var user = await firebaseAuthServices.signInWithGoogle();
-      return right(UserModel.fromFirebaseUser(user));
+      user = await firebaseAuthServices.signInWithGoogle();
+      var userEnriry = UserModel.fromFirebaseUser(user);
+      await addUserData(user: userEnriry);
+      return right(userEnriry);
+    } on CustomException catch (e) {
+      await deleteUser(user);
+      return left(ServerFailure(e.message));
     } catch (e) {
-      log("Exception AuthRepoImpl - signInWithGoogle: $e");
+      deleteUser(user);
+      log("Exception AuthRepoImpl - createUserWithEmailAndPassword: $e and ");
       return left(ServerFailure("حدث خطأ ما. الرجاء المحاولة مرة أخرى."));
     }
   }
 
   @override
   Future<Either<Failure, UserEntity>> signInWithFacebook() async {
+    User? user;
     try {
-      var user = await firebaseAuthServices.signInWithFacebook();
-      return right(UserModel.fromFirebaseUser(user));
+      user = await firebaseAuthServices.signInWithFacebook();
+      var userEntity = UserModel.fromFirebaseUser(user);
+      await addUserData(user: userEntity);
+      return right(userEntity);
+    } on CustomException catch (e) {
+      await deleteUser(user);
+      return left(ServerFailure(e.message));
     } catch (e) {
-      log("Exception AuthRepoImpl - signInWithFacebook: $e");
+      deleteUser(user);
+      log("Exception AuthRepoImpl - createUserWithEmailAndPassword: $e and ");
       return left(ServerFailure("حدث خطأ ما. الرجاء المحاولة مرة أخرى."));
     }
   }
