@@ -11,5 +11,6 @@ abstract class Assets {
   static String facebook_icon = 'assets/images/facebook_icons.svg';
   static String google_icon = 'assets/images/google_icons.svg';
   static String iphone_icon = 'assets/images/ipone_icons.svg';
-
+  static String profile_image = 'assets/images/profile_image.png';
+  static String notfication_image = 'assets/images/notif.svg';
 }
