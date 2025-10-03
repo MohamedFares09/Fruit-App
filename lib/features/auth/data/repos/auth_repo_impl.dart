@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fruits_app/core/errors/exception.dart';
 import 'package:fruits_app/core/errors/failuer.dart';
 import 'package:fruits_app/core/hleper_functions/delete_user.dart';
-import 'package:fruits_app/core/services/data_services.dart';
+import 'package:fruits_app/core/services/database_services.dart';
 import 'package:fruits_app/core/services/firebase_auth_services.dart';
 import 'package:fruits_app/core/utils/backend_endpoint.dart';
 import 'package:fruits_app/features/auth/data/models/user_model.dart';
@@ -26,6 +26,7 @@ class AuthRepoImpl extends AuthRepo {
           email: email, password: password);
       var userEntity = UserEntity(name: name, email: email, uId: user.uid);
       await addUserData(user: userEntity);
+
       return right(
         userEntity,
       );
@@ -46,8 +47,11 @@ class AuthRepoImpl extends AuthRepo {
     try {
       user = await firebaseAuthServices.signInWithEmailAndPassword(
           email: email, password: password);
+      var userEntity = await getUserData(uid: user.uid);
 
-      return right(UserModel.fromFirebaseUser(user));
+      return right(
+        userEntity,
+      );
     } on CustomException catch (e) {
       return left(ServerFailure(e.message));
     } catch (e) {
@@ -62,7 +66,14 @@ class AuthRepoImpl extends AuthRepo {
     try {
       user = await firebaseAuthServices.signInWithGoogle();
       var userEnriry = UserModel.fromFirebaseUser(user);
-      await addUserData(user: userEnriry);
+      var isUeserExisits = await dataBaseServices.isExisits(
+          path: BackendEndpoint.isUsersExist, documentId: user.uid);
+      if (isUeserExisits) {
+        await getUserData(uid: user.uid);
+      } else {
+        await addUserData(user: userEnriry);
+      }
+
       return right(userEnriry);
     } on CustomException catch (e) {
       await deleteUser(user);
@@ -95,6 +106,15 @@ class AuthRepoImpl extends AuthRepo {
   @override
   Future addUserData({required UserEntity user}) async {
     await dataBaseServices.addData(
-        path: BackendEndpoint.addUserData, data: user.toMap());
+        path: BackendEndpoint.addUserData,
+        data: user.toMap(),
+        documentId: user.uId);
+  }
+
+  @override
+  Future<UserEntity> getUserData({required String uid}) async {
+    var userData = await dataBaseServices.getUserData(
+        path: BackendEndpoint.getUserData, uid: uid);
+    return UserModel.fromJson(userData);
   }
 }

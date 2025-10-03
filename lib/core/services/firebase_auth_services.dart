@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:fruits_app/core/errors/exception.dart';
@@ -71,10 +70,6 @@ class FirebaseAuthServices {
       return (await FirebaseAuth.instance
               .signInWithCredential(facebookAuthCredential))
           .user!;
-    } on FirebaseAuthException catch (e) {
-      log("Exception FirebaseAuthServices - signInWithEmailAndPassword: ${e.code}");
-      ServerException.handleFirebaseAuthException(e);
-      throw CustomException('فشل تسجيل الدخول. الرجاء المحاولة مرة أخرى.');
     } catch (e) {
       log("Exception FirebaseAuthServices - signInWithEmailAndPassword: $e");
       throw CustomException('حدث خطأ ما. الرجاء المحاولة مرة أخرى.');
