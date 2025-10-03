@@ -16,9 +16,10 @@ class SignupViewBodyBlocConsumer extends StatelessWidget {
     return BlocConsumer<SignupCubit, SignupState>(
       listener: (context, state) {
         if (state is SignupErrorState) {
-          buildsnakbar(context, state.message , Colors.red);
+          buildsnakbar(context, state.message, Colors.red);
         } else if (state is SignupSuccessState) {
           buildsnakbar(context, 'تم انشاء الحساب بنجاح', Colors.green);
+          Navigator.pop(context);
           // Navigate to home screen or other screen
         }
       },
@@ -29,6 +30,4 @@ class SignupViewBodyBlocConsumer extends StatelessWidget {
       },
     );
   }
-
-
 }

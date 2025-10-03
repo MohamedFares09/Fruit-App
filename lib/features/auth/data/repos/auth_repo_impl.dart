@@ -91,7 +91,13 @@ class AuthRepoImpl extends AuthRepo {
     try {
       user = await firebaseAuthServices.signInWithFacebook();
       var userEntity = UserModel.fromFirebaseUser(user);
-      await addUserData(user: userEntity);
+      var isUeserExisits = await dataBaseServices.isExisits(
+          path: BackendEndpoint.isUsersExist, documentId: user.uid);
+      if (isUeserExisits) {
+        await getUserData(uid: user.uid);
+      } else {
+        await addUserData(user: userEntity);
+      }
       return right(userEntity);
     } on CustomException catch (e) {
       await deleteUser(user);
