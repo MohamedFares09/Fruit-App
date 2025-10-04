@@ -13,4 +13,6 @@ abstract class Assets {
   static String iphone_icon = 'assets/images/ipone_icons.svg';
   static String profile_image = 'assets/images/profile_image.png';
   static String notfication_image = 'assets/images/notif.svg';
+  static String filtter_image = 'assets/images/filtter.svg';
+  static String search_image = 'assets/images/search.svg';
 }

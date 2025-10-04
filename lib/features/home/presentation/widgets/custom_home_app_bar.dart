@@ -12,7 +12,7 @@ class CustomHomeAppBar extends StatelessWidget {
       trailing: Container(
         padding: EdgeInsets.all(12),
         decoration: ShapeDecoration(shape: OvalBorder()),
-        child: SvgPicture.asset(Assets.notfication_image),
+        child: SvgPicture.asset(Assets.notfication_image),  
       ),
       leading: Image.asset(Assets.profile_image),
       title: Text(
